@@ -1,0 +1,44 @@
+rules:
+  - id: android-insecure-storage
+    pattern: |
+      SharedPreferences.getSharedPreferences(...)
+      Context.MODE_WORLD_READABLE
+    message: 'Almacenamiento inseguro con WORLD_READABLE'
+    severity: ERROR
+    languages: [java, kotlin]
+  - id: android-sql-injection
+    pattern: |
+      SQLiteDatabase.execSQL(... + ...)
+    message: 'Posible SQL Injection'
+    severity: ERROR
+    languages: [java, kotlin]
+  - id: android-hardcoded-secrets
+    pattern: |
+      (String|val) .* = ("[A-Za-z0-9+/]{20,}"|'[A-Za-z0-9+/]{20,}')
+    message: 'Secreto hardcodeado detectado'
+    severity: ERROR
+    languages: [java, kotlin]
+  - id: android-allowbackup-true
+    pattern: |
+      android:allowBackup="true"
+    message: 'allowBackup activado, peligro de copias de seguridad'
+    severity: WARNING
+    languages: [xml]
+  - id: android-debuggable-true
+    pattern: |
+      android:debuggable="true"
+    message: 'debuggable activado en release, riesgo de depuración'
+    severity: ERROR
+    languages: [xml]
+  - id: android-exported-components
+    pattern: |
+      android:exported="true"
+    message: 'Componente exportado sin protección'
+    severity: WARNING
+    languages: [xml]
+  - id: android-cleartext-traffic
+    pattern: |
+      android:usesCleartextTraffic="true"
+    message: 'Tráfico en texto plano permitido'
+    severity: ERROR
+    languages: [xml]
